@@ -28,7 +28,7 @@ angular.module('demoApp', ['ngMaterial', 'md.data.table'])
             decapitate: false,
             largeEditDialog: false,
             boundaryLinks: false,
-            limitSelect: true,
+            limitSelect: false,
             pageSelect: false
         };
 
@@ -188,7 +188,9 @@ angular.module('demoApp', ['ngMaterial', 'md.data.table'])
 
         $scope.loadStuff = function () {
             $scope.promise = $timeout(function () {
-                // loading
+                getPageData(function(err, data){
+                    $scope.desserts = data;
+                });
             }, 2000);
         }
 
@@ -234,5 +236,10 @@ angular.module('demoApp', ['ngMaterial', 'md.data.table'])
             getPageData(function(err, data){
                 $scope.desserts = data;
             });
+        };
+
+        $scope.clickLinkHandler = function (event, dessert) {
+            event.stopPropagation(); // in case autoselect is enabled
+            alert('you clicked button against the ' + dessert.name + ' dessert');
         };
     }]);
