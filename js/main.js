@@ -7,7 +7,7 @@ angular.module('demoApp', ['ngMaterial', 'md.data.table'])
             .primaryPalette('blue');
     }])
 
-    .controller('nutritionController', ['$mdEditDialog', '$q', '$scope', '$timeout', function ($mdEditDialog, $q, $scope, $timeout) {
+    .controller('nutritionController', ['$mdEditDialog', '$q', '$scope', '$timeout', '$mdSidenav', '$mdUtil', function ($mdEditDialog, $q, $scope, $timeout, $mdSidenav, $mdUtil) {
         'use strict';
 
         var bookmark;
@@ -242,4 +242,27 @@ angular.module('demoApp', ['ngMaterial', 'md.data.table'])
             event.stopPropagation(); // in case autoselect is enabled
             alert('you clicked button against the ' + dessert.name + ' dessert');
         };
+
+        $scope.toggleLeft = buildToggler('left');
+        $scope.toggleRight = buildToggler('right');
+
+/*
+        function buildToggler(componentId) {
+            return function() {
+                $mdSidenav(componentId).toggle();
+            }
+        }
+*/
+        function buildToggler(navID) {
+            var debounceFn = $mdUtil.debounce(function () {
+                $mdSidenav(navID)
+                    .toggle()
+            }, 100);
+            return debounceFn;
+        }
+
+        $scope.testFilterClick = function(event){
+            alert('you selected to filter by ' + event);
+        }
+
     }]);
